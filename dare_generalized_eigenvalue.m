@@ -25,11 +25,16 @@ sys_d = c2d(sys_c, Ts, 'tustin');
 
 [Ad, Bd, Cd, Dd] = ssdata(sys_d);
 
+eig_Aol = eig(Ad);
+
 disp('Discrete A matrix:');
 disp(Ad);
 
 disp('Discrete B matrix:');
 disp(Bd);
+
+disp('eigenvalue open loop:');
+disp(eig_Aol);
 
 
 %% 3. LQR Weighting Matrices
@@ -79,3 +84,19 @@ disp(niu_stable);
 
 disp('Riccati solution P:');
 disp(real(P));
+
+%% 7. K
+
+K = (R + Bd'*P*Bd)\(Bd'*P*Ad);
+Acl = Ad - Bd*K;
+
+eig_Acl = eig(Acl);
+    
+disp('LQR Gain K:');
+disp(K);
+
+disp('Closed-Loop Matrix Acl:');
+disp(Acl);
+
+disp('eigenvalue closed loop:');
+disp(eig_Acl);
